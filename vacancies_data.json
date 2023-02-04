@@ -1,0 +1,35 @@
+[
+	{
+		"id": 1,
+		"creation date": "2023-02-01",
+		"status": "Resume sent",
+		"company": "EPAM",
+		"contacts_id": [1, 2],
+		"description": "EPAM_description",
+		"position_name": "Junior Python Developer",
+		"comment": "Interesting. Priority: High",
+		"user_id": 1
+	},
+	{
+		"id": 2,
+		"creation date": "2023-02-02",
+		"status": "Pending",
+		"company": "Google",
+		"contacts_id": [1, 2],
+		"description": "Google_description",
+		"position_name": "Junior Python Trainee",
+		"comment": "Priority: Low",
+		"user_id": 1
+	},
+	{
+		"id": 3,
+		"creation date": "2023-02-02",
+		"status": "Invited for an interview",
+		"company": "Bolt",
+		"contacts_id": [1, 2, 3],
+		"description": "Bolt_description",
+		"position_name": "Data Analyst",
+		"comment": "Maybe. Priority: medium",
+		"user_id": 1
+	}
+]
