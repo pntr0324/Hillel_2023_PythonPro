@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add vacancy</title>
+</head>
+<body>
+<form action="/vacancy/" method="POST">
+    <label for="company">Company:</label>
+    <input type="text" name="company" placeholder="company"><br>
+    <label for="contacts_id">Contacts_id:</label>
+    <input type="text" name="contacts_id" placeholder="contacts_id"><br>
+    <label for="description">Description:</label>
+    <input type="text" name="description" placeholder="description"><br>
+    <label for="position_name">Position_name:</label>
+    <input type="text" name="position_name" placeholder="position_name"><br>
+    <label for="comment">Comment:</label>
+    <input type="text" name="comment" placeholder="comment"><br>
+    <input type="submit" value="Add vacancy">
+</form>
+<div>
+    {{vacancies}}
+</div>
+</body>
+</html>
