@@ -112,4 +112,3 @@ class Document(Base):
 
     def __repr__(self):
         return '<Document %r>' % self.name
-
