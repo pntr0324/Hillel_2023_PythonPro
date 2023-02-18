@@ -102,3 +102,4 @@ def vacancy_id_history():
 
 if __name__ == "__main__":
     app.run()
+
