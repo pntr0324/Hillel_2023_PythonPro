@@ -57,7 +57,7 @@ class Vacancy(Base):
         self.user_id = user_id
 
     def __repr__(self):
-        return '<Vacancy %r>' % self.position_name
+        return f'<Vacancy {self.position_name} - {self.company} - {self.description} - {self.comment}>'
 
 
 class Event(Base):
@@ -79,7 +79,7 @@ class Event(Base):
         self.status = status
 
     def __repr__(self):
-        return '<Event %r>' % self.title
+        return f'<Event {self.title} - {self.description} - {self.event_date} - {self.due_to_date}>'
 
 
 class Template(Base):

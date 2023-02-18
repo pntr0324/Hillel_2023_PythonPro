@@ -8,7 +8,19 @@
     <title>Add vacancy</title>
 </head>
 <body>
+<form action="/vacancy/" method="GET">
+        <legend>
+            <h2> Vacancies: </h2>
+        </legend>
+        <div>
+            {{vacancies}}
+        </div>
+</form>
+
 <form action="/vacancy/" method="POST">
+    <legend>
+        <h2> Add new vacancy: </h2>
+    </legend>
     <label for="company">Company:</label>
     <input type="text" name="company" placeholder="company"><br>
     <label for="contacts_id">Contacts_id:</label>
@@ -21,8 +33,5 @@
     <input type="text" name="comment" placeholder="comment"><br>
     <input type="submit" value="Add vacancy">
 </form>
-<div>
-    {{vacancies}}
-</div>
 </body>
 </html>
