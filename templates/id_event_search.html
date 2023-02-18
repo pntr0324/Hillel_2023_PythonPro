@@ -16,5 +16,22 @@
             {{res_id_event}}
         </div>
 </form>
+
+<form action="/vacancy/{{id_vac}}/event/{{id_event}}/" method="POST">
+        <legend>
+            <h2> Edit event: </h2>
+        </legend>
+        <label for="description">Description:</label>
+        <input type="text" name="description" placeholder="description"><br>
+        <label for="event_date">Event_date:</label>
+        <input type="text" name="event_date" placeholder="event_date"><br>
+        <label for="title">Title:</label>
+        <input type="text" name="title" placeholder="title"><br>
+        <label for="due_to_date">Due_to_date:</label>
+        <input type="text" name="due_to_date" placeholder="due_to_date"><br>
+        <label for="status">Status:</label>
+        <input type="text" name="status" placeholder="status"><br>
+        <input type="submit" value="Edit event">
+</form>
 </body>
 </html>

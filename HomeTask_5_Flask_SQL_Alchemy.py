@@ -57,11 +57,28 @@ def list_vacancies():
     return render_template('new_vacancy.html', vacancies=result)
 
 
-@app.route("/vacancy/<id_vac>/", methods=['GET'])
+@app.route("/vacancy/<id_vac>/", methods=['GET', 'POST'])
 def vacancy_id(id_vac):
     db_al.init_db()
-    if request.method == 'GET':
-        res_vacancy = db_al.db_session.query(Vacancy).filter_by(id=id_vac).all()
+    if request.method == 'POST':
+        position_name = request.form.get('position_name')
+        company = request.form.get('company')
+        description = request.form.get('description')
+        contacts_id = request.form.get('contacts_id')
+        comment = request.form.get('comment')
+        status = request.form.get('status')
+        edited_vac = {
+            Vacancy.position_name: position_name,
+            Vacancy.company: company,
+            Vacancy.description: description,
+            Vacancy.contacts_id: contacts_id,
+            Vacancy.comment: comment,
+            Vacancy.status: status
+        }
+        db_al.db_session.query(Vacancy).filter(Vacancy.id == id_vac).\
+            update(edited_vac, synchronize_session=False)
+        db_al.db_session.commit()
+    res_vacancy = db_al.db_session.query(Vacancy).filter_by(id=id_vac).all()
     return render_template('id_vacancy_search.html', res_vacancy=res_vacancy, id_vac=id_vac)
 
 
@@ -82,11 +99,26 @@ def vacancy_event(id_vac):
     return render_template('event.html', event=res_event, id_vac=id_vac)
 
 
-@app.route("/vacancy/<id_vac>/event/<id_event>/", methods=['GET'])
+@app.route("/vacancy/<id_vac>/event/<id_event>/", methods=['GET', 'POST'])
 def vacancy_event_id(id_vac, id_event):
     db_al.init_db()
-    if request.method == 'GET':
-        res_id_event = db_al.db_session.query(Event).filter_by(vacancy_id=id_vac, event_id=id_event).all()
+    if request.method == 'POST':
+        description = request.form.get('description')
+        event_date = request.form.get('event_date')
+        title = request.form.get('title')
+        due_to_date = request.form.get('due_to_date')
+        status = request.form.get('status')
+        edited_event = {
+            Event.description: description,
+            Event.event_date: event_date,
+            Event.title: title,
+            Event.due_to_date: due_to_date,
+            Event.status: status
+        }
+        db_al.db_session.query(Event).filter(Event.event_id == id_event, Event.vacancy_id == id_vac).\
+            update(edited_event, synchronize_session=False)
+        db_al.db_session.commit()
+    res_id_event = db_al.db_session.query(Event).filter_by(vacancy_id=id_vac, event_id=id_event).all()
     return render_template('id_event_search.html', res_id_event=res_id_event, id_vac=id_vac, id_event=id_event)
 
 
@@ -102,4 +134,3 @@ def vacancy_id_history():
 
 if __name__ == "__main__":
     app.run()
-

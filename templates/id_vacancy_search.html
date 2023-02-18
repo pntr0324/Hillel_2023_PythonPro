@@ -16,5 +16,23 @@
             {{res_vacancy}}
         </div>
 </form>
+<form action="/vacancy/{{id_vac}}/" method="POST">
+    <legend>
+        <h2> Edit vacancy: </h2>
+    </legend>
+    <label for="company">Company:</label>
+    <input type="text" name="company" placeholder="company"><br>
+    <label for="contacts_id">Contacts_id:</label>
+    <input type="text" name="contacts_id" placeholder="contacts_id"><br>
+    <label for="description">Description:</label>
+    <input type="text" name="description" placeholder="description"><br>
+    <label for="position_name">Position_name:</label>
+    <input type="text" name="position_name" placeholder="position_name"><br>
+    <label for="comment">Comment:</label>
+    <input type="text" name="comment" placeholder="comment"><br>
+    <label for="status">Status:</label>
+    <input type="text" name="status" placeholder="status"><br>
+    <input type="submit" value="Edit vacancy">
+</form>
 </body>
 </html>
