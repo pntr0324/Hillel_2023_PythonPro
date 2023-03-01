@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import database_alchemy as db_al
-from models import Vacancy, Event
+from models import Vacancy, Event, EmailCredentials
+import email_con
 
 app = Flask(__name__)
 
@@ -10,9 +11,27 @@ def user_main():
     return "CRM's User"
 
 
-@app.route("/user/email/", methods=['GET'])
+@app.route("/user/email/", methods=['GET', 'POST'])
 def user_email():
-    return "User's email"
+    user_settings = db_al.db_session.query(EmailCredentials).filter_by(user_id=1).first()
+    email_obj = email_con.EmailWrapper(
+        user_settings.login,
+        user_settings.password,
+        user_settings.email,
+        user_settings.smtp_server,
+        user_settings.smtp_port,
+        user_settings.pop_server,
+        user_settings.pop_port,
+        user_settings.imap_server,
+        user_settings.imap_port
+    )
+    if request.method == 'POST':
+        recipient = request.form.get('recipient')
+        email_message = request.form.get('email_message')
+        email_obj.send_email(recipient, email_message)
+        return 'Send email'
+    emails = email_obj.get_emails([1], protocol='pop3')
+    return render_template('send_email.html', emails=emails)
 
 
 @app.route("/user/email/credentials", methods=['GET'])
@@ -21,7 +40,7 @@ def user_email_creds():
 
 
 @app.route("/user/settings/", methods=['GET', 'PUT'])
-def user_settings():
+def user_settings_1():
     return "User's settings"
 
 

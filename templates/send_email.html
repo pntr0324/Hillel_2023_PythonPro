@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Send email</title>
+</head>
+<body>
+<form action="/user/email/" method="POST">
+    <legend>
+        <h2> Add email message and email recipient: </h2>
+    </legend>
+    <label for="recipient">Recipient:</label>
+    <input type="text" name="recipient" placeholder="recipient"><br>
+    <label for="email_message">Email_message:</label>
+    <input type="text" name="email_message" placeholder="email_message"><br>
+    <input type="submit" value="Send letter">
+</form>
+
+{% for one_email in emails %}
+
+    {{ one_email }}
+    <br><p>
+
+{% endfor %}
+</body>
+</html>
