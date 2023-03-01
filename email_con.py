@@ -56,3 +56,4 @@ class EmailWrapper:
         M.close()
         M.logout()
         return result
+

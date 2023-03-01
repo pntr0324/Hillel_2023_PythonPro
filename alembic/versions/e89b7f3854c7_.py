@@ -44,3 +44,4 @@ def downgrade() -> None:
     op.drop_column('emailcredentials', 'pop_port')
     op.drop_column('emailcredentials', 'imap_server')
     # ### end Alembic commands ###
+
