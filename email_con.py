@@ -1,7 +1,11 @@
+import email
 import imaplib
 import smtplib
 import ssl
 import poplib
+from email.header import decode_header
+from email.parser import Parser
+from email.utils import parseaddr
 
 
 class EmailWrapper:
@@ -50,10 +54,12 @@ class EmailWrapper:
         M.login(self.login, self.password)
         M.select()
         result = []
-        for msg_num in messages:
+        for msg_num in messages[0].split():
             typ, data = M.fetch(msg_num, '(RFC822)')
-            result.append(str(data[0][1]))
+            raw_email = data[0][1]#.decode('utf-8')
+            subject = raw_email["Subject"]
+            email_message = email.message_from_bytes(subject)
+            result.append(email_message)
         M.close()
         M.logout()
         return result
-
