@@ -13,7 +13,19 @@
             <h2> Vacancies: </h2>
         </legend>
         <div>
-            {{vacancies}}
+            {% for vacancy in vacancies %}
+                Company: {{vacancy.company}}<br>
+                Position: {{vacancy.position_name}}<br>
+                Comment: {{vacancy.comment}}<br>
+                Description: {{vacancy.description}}<br>
+                {% for one_contact in vacancy.contacts %}
+                    Name: {{one_contact.name}}<br>
+                    Email: {{one_contact.email}}<br>
+                    Mobile: {{one_contact.mobile}}<br>
+                <br> -- -- -- -- -- -- -- -- -- -- <br>
+                {% endfor %}
+            <br> -------------------------------- <br>
+            {% endfor %}
         </div>
 </form>
 
@@ -23,8 +35,12 @@
     </legend>
     <label for="company">Company:</label>
     <input type="text" name="company" placeholder="company"><br>
-    <label for="contacts_id">Contacts_id:</label>
-    <input type="text" name="contacts_id" placeholder="contacts_id"><br>
+    <label for="name">Contacts_name:</label>
+    <input type="text" name="name" placeholder="name"><br>
+    <label for="contact_email">Contact_email:</label>
+    <input type="text" name="contact_email" placeholder="contact_email"><br>
+    <label for="mobile_contact">Mobile_contact:</label>
+    <input type="text" name="mobile_contact" placeholder="mobile_contact"><br>
     <label for="description">Description:</label>
     <input type="text" name="description" placeholder="description"><br>
     <label for="position_name">Position_name:</label>

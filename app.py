@@ -2,6 +2,8 @@ from flask import Flask, request, render_template
 import database_alchemy as db_al
 from models import Vacancy, Event, EmailCredentials
 import email_con
+import mongodb
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
@@ -30,7 +32,7 @@ def user_email():
         email_message = request.form.get('email_message')
         email_obj.send_email(recipient, email_message)
         return 'Send email'
-    emails = email_obj.get_emails([1], protocol='pop3')
+    emails = email_obj.get_emails([1, 2, 3, 4, 5], protocol='pop3')
     return render_template('send_email.html', emails=emails)
 
 
@@ -65,15 +67,31 @@ def list_vacancies():
     db_al.init_db()
     if request.method == 'POST':
         company = request.form.get('company')
-        contacts_id = request.form.get('contacts_id')
+        name = request.form.get('name')
+        contact_email = request.form.get('contact_email')
+        mobile_contact = request.form.get('mobile_contact')
         description = request.form.get('description')
         position_name = request.form.get('position_name')
         comment = request.form.get('comment')
-        current_vacancy = Vacancy(position_name, company, description, contacts_id, comment, 1, 1)
+        id_contact = mongodb.contacts_collection.insert_one({"name": name,
+                                               "email": contact_email,
+                                               "mobile": mobile_contact}).inserted_id
+        current_vacancy = Vacancy(position_name, company, description, str(id_contact), comment, 1, 1)
         db_al.db_session.add(current_vacancy)
         db_al.db_session.commit()
-    result = db_al.db_session.query(Vacancy).all()
-    return render_template('new_vacancy.html', vacancies=result)
+    result = db_al.db_session.query(Vacancy.position_name, Vacancy.company, Vacancy.contacts_id,
+                                    Vacancy.comment, Vacancy.description).all()
+    result_data = []
+    for item in result:
+        contacts = item[2].split(',')
+        contacts_result = []
+        for one_contact in contacts:
+            data = mongodb.contacts_collection.find_one({'_id': ObjectId(one_contact)})
+            contacts_result.append(data)
+        result_data.append({'position_name': item[0],
+                            'company': item[1],
+                            'contacts': contacts_result})
+    return render_template('new_vacancy.html', vacancies=result_data)
 
 
 @app.route("/vacancy/<id_vac>/", methods=['GET', 'POST'])
@@ -97,8 +115,20 @@ def vacancy_id(id_vac):
         db_al.db_session.query(Vacancy).filter(Vacancy.id == id_vac).\
             update(edited_vac, synchronize_session=False)
         db_al.db_session.commit()
-    res_vacancy = db_al.db_session.query(Vacancy).filter_by(id=id_vac).all()
-    return render_template('id_vacancy_search.html', res_vacancy=res_vacancy, id_vac=id_vac)
+    res_vacancy = db_al.db_session.query(
+        Vacancy.position_name, Vacancy.company, Vacancy.contacts_id, Vacancy.comment, Vacancy.description)\
+        .filter_by(id=id_vac).all()
+    result_data = []
+    for item in res_vacancy:
+        contacts = item[2].split(',')
+        contacts_result = []
+        for one_contact in contacts:
+            data = mongodb.contacts_collection.find_one({'_id': ObjectId(one_contact)})
+            contacts_result.append(data)
+        result_data.append({'position_name': item[0],
+                            'company': item[1],
+                            'contacts': contacts_result})
+    return render_template('id_vacancy_search.html', res_vacancy=result_data, id_vac=id_vac)
 
 
 @app.route("/vacancy/<id_vac>/event/", methods=['GET', 'POST'])

@@ -13,7 +13,19 @@
             <h2> Vacancy: </h2>
         </legend>
         <div>
-            {{res_vacancy}}
+            {% for vacancy in res_vacancy %}
+                Company: {{vacancy.company}}<br>
+                Position: {{vacancy.position_name}}<br>
+                Comment: {{vacancy.comment}}<br>
+                Description: {{vacancy.description}}<br>
+                {% for one_contact in vacancy.contacts %}
+                    Name: {{one_contact.name}}<br>
+                    Email: {{one_contact.email}}<br>
+                    Mobile: {{one_contact.mobile}}<br>
+                <br> -- -- -- -- -- -- -- -- -- -- <br>
+                {% endfor %}
+            <br> -------------------------------- <br>
+            {% endfor %}
         </div>
 </form>
 <form action="/vacancy/{{id_vac}}/" method="POST">
