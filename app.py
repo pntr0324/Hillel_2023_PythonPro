@@ -90,7 +90,9 @@ def list_vacancies():
             contacts_result.append(data)
         result_data.append({'position_name': item[0],
                             'company': item[1],
-                            'contacts': contacts_result})
+                            'contacts': contacts_result,
+                            'comment': item[3],
+                            'description': item[4]})
     return render_template('new_vacancy.html', vacancies=result_data)
 
 
@@ -127,7 +129,9 @@ def vacancy_id(id_vac):
             contacts_result.append(data)
         result_data.append({'position_name': item[0],
                             'company': item[1],
-                            'contacts': contacts_result})
+                            'contacts': contacts_result,
+                            'comment': item[3],
+                            'description': item[4]})
     return render_template('id_vacancy_search.html', res_vacancy=result_data, id_vac=id_vac)
 
 
