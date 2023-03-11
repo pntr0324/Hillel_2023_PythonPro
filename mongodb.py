@@ -1,5 +1,7 @@
 import pymongo
+import os
 
-client = pymongo.MongoClient('mongodb://root:example@localhost:27017/')
+M_HOST = os.environ.get('MONGO_HOST', 'localhost')
+client = pymongo.MongoClient(f'mongodb://root:example@{M_HOST}:27017/')
 database = client['crm_db']
 contacts_collection = database['contacts']
