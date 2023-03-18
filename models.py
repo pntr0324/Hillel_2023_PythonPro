@@ -38,6 +38,28 @@ class EmailCredentials(Base):
         self.login = login
         self.password = password
 
+    def to_dict(self):
+        return {
+            'email': self.user_email,
+            'login': self.login,
+            'password': self.password,
+            'pop_server': self.pop_server,
+            'smtp_server': self.smtp_server,
+            'imap_server': self.imap_server,
+            'pop_port': self.pop_port,
+            'smtp_port': self.smtp_port,
+            'imap_port': self.imap_port
+        }
+
+    def get_mandatory_fields(self):
+        return {
+            'login': self.login,
+            'password': self.password,
+            'user_email': self.email,
+            'smtp_server': self.smtp_server,
+            'smtp_port': self.smtp_port,
+        }
+
 
 class Vacancy(Base):
     __tablename__ = 'vacancy'

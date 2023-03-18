@@ -1,9 +1,12 @@
 from flask import Flask, request, render_template
+
+import celery_worker
 import database_alchemy as db_al
 from models import Vacancy, Event, EmailCredentials
 import email_con
 import mongodb
 from bson.objectid import ObjectId
+from celery_worker import send_email
 
 app = Flask(__name__)
 
@@ -30,7 +33,7 @@ def user_email():
     if request.method == 'POST':
         recipient = request.form.get('recipient')
         email_message = request.form.get('email_message')
-        email_obj.send_email(recipient, email_message)
+        celery_worker.send_email.apply_async(args=[user_settings.id, recipient, email_message])
         return 'Send email'
     emails = email_obj.get_emails([1, 2, 3, 4, 5], protocol='pop3')
     return render_template('send_email.html', emails=emails)
